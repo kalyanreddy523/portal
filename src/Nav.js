@@ -17,7 +17,7 @@ function Nav() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <Link to="/home" className="nav-link active text-white fw-bold" aria-current="page">Home</Link>
+                  <Link to="/" className="nav-link active text-white fw-bold" aria-current="page">Home</Link>
                 </li>
                 {/* <li className="nav-item">
                   <Link to="/Aboutus" className="nav-link active text-white fw-bold">Aboutus</Link>
@@ -35,10 +35,13 @@ function Nav() {
                     <Link to="/contact" className="nav-link active text-white fw-bold" aria-disabled="true">ContactUs</Link>
                   </li> */}
                   <li className="nav-item">
-                    <Link to="/" className="nav-link active text-white fw-bold" aria-disabled="true">Login</Link>
+                    <Link to="/Login" className="nav-link active text-white fw-bold" aria-disabled="true">Login</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/Registration" className="nav-link active text-white fw-bold" aria-disabled="true">SignUp</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/contact" className="nav-link active text-white fw-bold" aria-disabled="true">Contact Us</Link>
                   </li>
               </ul>
             </div>

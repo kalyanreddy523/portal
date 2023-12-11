@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "./App.css";
+import { getUserDetails } from "./Authstate";
+import axios from "axios";
 
 function Quiz() {
   // Properties
+  const userDetails=getUserDetails();
   const [showResults, setShowResults] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
+  const[customerid,setCustomerid]=useState(userDetails.id);
+  const[coursename,setCourse]=useState("Css");
 
   const questions = [
     {
@@ -86,14 +91,15 @@ function Quiz() {
 
   /* A possible answer was clicked */
   const optionClicked = (isCorrect) => {
-    // Increment the score
+    
     if (isCorrect) {
       setScore(score + 1);
     }
 
-    if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
+    // if (currentQuestion + 1 < questions.length) {
+    //   setCurrentQuestion(currentQuestion + 1);
+    // } 
+    else {
       setShowResults(true);
     }
   };
@@ -104,11 +110,63 @@ function Quiz() {
     setCurrentQuestion(0);
     setShowResults(false);
   };
+  const submit=async()=>{
+    const quiz={
+      customerid,
+      coursename,
+      score,
+
+    }
+    try{
+      const response=axios.post("http://localhost:8085/api/test",quiz);
+
+          setCustomerid(userDetails.id);
+          setCourse('');
+          setScore('');
+          alert("Submitted successfully");
+          document.getElementById('results').innerHTML=score+'out of 8 are correct';
+
+      }catch{
+          console.log("error occured");
+      }
+
+
+
+  }
+  const nextQuestion = () => {
+    if (currentQuestion + 1 < questions.length) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setShowResults(true);
+    }
+  };
+
+  const prevQuestion=()=>{
+    if(currentQuestion-1 < questions.length){
+      setCurrentQuestion(currentQuestion-1);
+    }else if(currentQuestion=questions.length){
+      setCurrentQuestion(currentQuestion);
+      alert('there is no previous question');
+    }else {
+      setShowResults(true);
+    }
+  }
+  function changeBackground(e) {
+    e.target.style.background = 'orange';
+  }
+  function originalbackground(e) {
+    e.target.style.background = 'blue';
+  }
+
+  function background(e){
+    e.target.style.background='green';
+  }
 
   return (
+    <>
     <div className="text-center bg-body-tertiary" style={{fontFamily:"Verdana"}}>
       {/* 1. Header  */}
-      <h1 className="fw-bold">Css Quiz</h1>
+      <h1 className="fw-bold">Html Quiz</h1>
 
       {/* 2. Current Score  */}
       {/* <h2 className="mt-3">Score: {score}</h2> */}
@@ -118,11 +176,11 @@ function Quiz() {
         /* 4. Final Results */
         <div className="final-results">
           <h1>Final Results</h1>
-          <h2>
+          {/* <h2>
             {score} out of {questions.length} correct - (
             {(score / questions.length) * 100}%)
-          </h2>
-          <button onClick={() => retake()} className="btn btn-info">Retake Test</button>
+          </h2> */}
+          {/* <button onClick={() => retake()} className="btn btn-info">Retake Test</button> */}
         </div>
       ) : (
         /* 5. Question Card  */
@@ -141,14 +199,31 @@ function Quiz() {
                   key={option.id}
                   onClick={() => optionClicked(option.isCorrect)} style={{listStyleType:"none"}}
                 >
-                  <button className="btn btn-info text-white fw-bold mt-3">{option.text}</button>
+                  <button className="btn btn-info text-white fw-bold mt-3" onMouseOver={changeBackground} onMouseLeave={originalbackground} onClick={background} id="clicked" style={{width:"300px"}}>{option.text}</button>
                 </li>
               );
             })}
           </ul>
         </div>
       )}
+      {!showResults && (
+        <button className="btn btn-danger mt-3 me-5" type="button" onClick={prevQuestion}>
+          Previous
+        </button>
+      )}
+      {!showResults && (
+        <button className="btn btn-warning mt-3 ms-3" type="button" onClick={nextQuestion}>
+          Next
+        </button>
+      )}
     </div>
+    <div className="bg-body-tertiary">
+      <button className="btn btn-success text-white p-2 mt-5" onClick={submit}>Submit</button>
+    </div>
+    <div className="p-2">
+      <p id='results' className="fw-bold fs-5"></p>
+    </div>
+    </>
   );
 }
 

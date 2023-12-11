@@ -14,55 +14,46 @@ function Registration() {
     const[pincode,setPincode]=useState('');
 
     const submit=async()=>{
-        var Email=document.getElementById("inputEmail4");
-        var Password=document.getElementById("inputPassword4");
-        var Fullname=document.getElementById("name");
-        var Address=document.getElementById("inputAddress");
-        var Adress1=document.getElementById("inputAddress2")
-        var City=document.getElementById("inputCity");
-        var State=document.getElementById("inputState");
-        var zip=document.getElementById("inputZip");
-        var checkbox=document.getElementById("gridCheck");
 
-        if(Email.value==''){
+        var checkbox=document.getElementById('gridCheck');
+        if(email===''){
                 alert("email is a Required Field");
                 document.getElementById("inputEmail4").style.borderColor="red";
         }
-        else if(Password.value==''){
+        else if(password===''){
             alert("password is a Required field");
             document.getElementById("inputPassword4").style.borderColor="red";
         }
-        else if(Fullname.value==''){
-            alert("fullname is a Required field");
+        else if(fullname===''){
+            alert("Username is a Required field");
             document.getElementById("inputPassword4").style.borderColor="red";
         }
-        else if(Address.value==''){
+        else if(adress===''){
             alert("Adress is a Required field");
             document.getElementById("inputAddress").style.borderColor="red";
         }
-        else if(Adress1.value==''){
-            alert("Adress2 is a Required Field");
+        else if(landmark===''){
+            alert("Landmark is a Required Field");
             document.getElementById("inputAddress2").style.borderColor="red";
         }
-        else if(City.value==''){
+        else if(city===''){
             alert("City is a Required field");
             document.getElementById("inputCity").style.borderColor="red";
         }
-        else if(State.value==''){
+        else if(state===''){
             alert("State is a Required field");
             document.getElementById("inputState").style.borderColor="red";
         }
-        else if(zip.value==''){
+        else if(pincode===''){
             alert("zip is a Required field");
             document.getElementById("inputZip").style.borderColor="red";
         }
-        else if(checkbox.checked==''){
+        else if(checkbox.checked===''){
             alert("fill the Checkbox");
             document.getElementById("gridCheck").style.borderColor="red";
-        }
-        else{
-            alert("Registration successful")
-        }
+        }else if(pincode.length >6 || pincode.length<6){
+            alert("Enter the pincode correctly");
+        }else if(email.includes('@gmail.com')){
         const data={
             email,
             password,
@@ -85,13 +76,38 @@ function Registration() {
             setCity('');
             setState('');
             setPincode('');
+            alert("Registration successful");
 
         }catch{
             console.log("error occured");
         }
+    } else{
+        alert('enter the correct emailid');
+        document.getElementById('inputEmail4').style.borderColor='red';
+    }
 
 
     }
+    const inputstate = (value) => {
+        if (!value.trim() || !/^[a-zA-Z]+$/.test(value)) {
+          alert('Please enter a valid User name with only alphabets.');
+        }
+      };
+      const handleChange = (e) => {
+        const inputValue = e.target.value;
+        setFullName(inputValue)
+        inputstate(inputValue);
+      };
+      const inputcity = (cityvalue) => {
+        if (!cityvalue.trim() || !/^[a-zA-Z]+$/.test(cityvalue)) {
+          alert('Please enter a valid City name with only alphabets.');
+        }
+      };
+      const handleInputChange = (e) => {
+        const inputcityvalue = e.target.value;
+        setCity(inputcityvalue)
+        inputcity(inputcityvalue);
+      };
 
     return (
         <>
@@ -109,8 +125,8 @@ function Registration() {
                                     <input type="password" class="form-control" value={password} onChange={(e)=>setPassword(e.target.value)} id="inputPassword4" placeholder="Enter the password" required />
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputAddress" class="form-label text-primary fw-bold">Name</label>
-                                    <input type="text" class="form-control" id="name" value={fullname} onChange={(e)=>setFullName(e.target.value)} placeholder="Enter the Name here" required />
+                                    <label for="inputAddress" class="form-label text-primary fw-bold">User Name</label>
+                                    <input type="text" class="form-control" id="name" value={fullname} onChange={handleChange} placeholder="Enter the Name here" required />
                                 </div>
                                 <div class="col-12">
                                     <label for="inputAddress" class="form-label text-primary fw-bold">Address</label>
@@ -122,7 +138,7 @@ function Registration() {
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputCity" class="form-label text-primary fw-bold">City</label>
-                                    <input type="text" class="form-control" value={city} onChange={(e)=>setCity(e.target.value)} id="inputCity"required />
+                                    <input type="text" class="form-control" value={city} onChange={handleInputChange} id="inputCity"required />
                                 </div>
                                 <div class="col-md-4">
                                     <label for="inputState" class="form-label text-primary fw-bold" >State</label>
@@ -137,7 +153,7 @@ function Registration() {
                                 </div>
                                 <div class="col-md-2">
                                     <label for="inputZip" class="form-label text-primary fw-bold">Zip</label>
-                                    <input type="text" class="form-control" value={pincode} onChange={(e)=>setPincode(e.target.value)} id="inputZip" required />
+                                    <input type="number" class="form-control" value={pincode} onChange={(e)=>setPincode(e.target.value)} id="inputZip" required />
                                 </div>
                                 <div class="col-12">
                                     <div class="form-check">

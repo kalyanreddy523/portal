@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.js";
+import { getUserDetails } from "./Authstate";
 // import Aboutus from './Aboutus';
 // import Allcourses from "./Allcourses";
 // import Aws from "./Aws";
@@ -18,7 +18,15 @@ import "../node_modules/bootstrap/dist/js/bootstrap.js";
 // import Trainees from './Trainees';
 // import Certificate from "./certificate.js";
 
-function Navbar() {
+function Navbar({onLogout}) {
+  const navigate = useNavigate();
+  const userDetails=getUserDetails();
+
+    const handleLogout = () => {
+        // Add any additional logout logic here if needed
+        onLogout(); // Call the onLogout prop passed from the parent component (Login)
+        navigate('/'); // Redirect to the login page or any other desired route
+    };
   return (
     <>
       {/* <BrowserRouter> */}
@@ -33,7 +41,7 @@ function Navbar() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <Link to="/home" className="nav-link active text-white fw-bold" aria-current="page">Home</Link>
+                  <Link to="/" className="nav-link active text-white fw-bold" aria-current="page">Home</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/Aboutus" className="nav-link active text-white fw-bold">Aboutus</Link>
@@ -42,19 +50,14 @@ function Navbar() {
                   <Link to="/Allcourses" className="nav-link active text-white fw-bold">AllCourses</Link>
                 </li>
                 <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+                <a class="nav-link dropdown-toggle text-white fw-bold" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user"></i> {userDetails.fullname}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"/></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><Link class="dropdown-item" to='/myprofile'>MyProfile</Link></li>
+            <li><button class="dropdown-item btn" onClick={handleLogout}>Logout</button></li>
           </ul>
         </li>
-                <li className="nav-item">
-                  <Link to="/Trainees" className="nav-link active text-white fw-bold">Trainees</Link>
-                </li>
                   <li className="nav-item">
                     <Link to="/contact" className="nav-link active text-white fw-bold" aria-disabled="true">ContactUs</Link>
                   </li>
@@ -90,4 +93,5 @@ function Navbar() {
     </>
   )
 }
+
 export default Navbar;
